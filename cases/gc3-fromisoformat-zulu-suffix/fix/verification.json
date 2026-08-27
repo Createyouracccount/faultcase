@@ -1,6 +1,6 @@
 {
-  "bundle": "cases/gc3-fromisoformat-zulu-suffix",
-  "runner": "docker",
+  "bundle": "gc3-fromisoformat-zulu-suffix",
+  "runner": "venv",
   "runs_per_phase": 3,
   "static_problems": [],
   "comparator_version": 2,
@@ -36,5 +36,16 @@
       "exit": 0
     }
   ],
+  "change_coverage": {
+    "status": "ok",
+    "files": {
+      "repro/app/client.py": {
+        "changed_lines": 1,
+        "executed": 1
+      }
+    },
+    "executed_changed_lines": 1,
+    "total_changed_lines": 1
+  },
   "result": "VERIFIED"
 }

@@ -1,0 +1,52 @@
+name: verify
+
+# Re-verifies every reproducible case from scratch: pre-patch must fail 3/3
+# with the frozen failure signature, post-patch must pass 3/3. Exit code
+# decides. Runs on every push and weekly, so the pinned images and hash-locked
+# dependency layers are continuously proven, not just claimed.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+jobs:
+  docker:
+    name: docker / ${{ matrix.case }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - gc1-webhook-hmac-reserialized-body
+          - gc2-urllib3-retry-method-whitelist
+          - gc3-fromisoformat-zulu-suffix
+          - gc4-idle-drop-read-hang
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install faultcase
+        run: pip install .
+      - name: Verify (3x fail pre-patch, 3x pass post-patch)
+        run: faultcase-verify "cases/${{ matrix.case }}" --runner docker --json
+
+  venv:
+    name: venv / gc3 (uv provisions the pinned 3.10 on a 3.12 host)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v5
+      - name: Install faultcase
+        run: pip install .
+      - name: Verify with change coverage
+        run: >-
+          faultcase-verify cases/gc3-fromisoformat-zulu-suffix
+          --runner venv --coverage --json

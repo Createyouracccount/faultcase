@@ -1,5 +1,5 @@
 {
-  "bundle": "cases/gc4-idle-drop-read-hang",
+  "bundle": "gc4-idle-drop-read-hang",
   "runner": "docker",
   "runs_per_phase": 3,
   "static_problems": [],

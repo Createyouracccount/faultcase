@@ -1,5 +1,5 @@
 {
-  "bundle": "cases/gc2-urllib3-retry-method-whitelist",
+  "bundle": "gc2-urllib3-retry-method-whitelist",
   "runner": "docker",
   "runs_per_phase": 3,
   "static_problems": [],

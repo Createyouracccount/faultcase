@@ -1,5 +1,5 @@
 {
-  "bundle": "cases/gc1-webhook-hmac-reserialized-body",
+  "bundle": "gc1-webhook-hmac-reserialized-body",
   "runner": "docker",
   "runs_per_phase": 3,
   "static_problems": [],

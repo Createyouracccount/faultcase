@@ -1,5 +1,9 @@
 # faultcase
 
+[![verify](https://github.com/Createyouracccount/faultcase/actions/workflows/verify.yml/badge.svg)](https://github.com/Createyouracccount/faultcase/actions/workflows/verify.yml)
+[![PyPI](https://img.shields.io/pypi/v/faultcase)](https://pypi.org/project/faultcase/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 **Turn API support tickets into runnable failure-reproduction bundles with
 deterministic verification.**
 
@@ -9,6 +13,11 @@ engineer can run — not a chatbot answer:
 > Before the patch, the customer's exact failure reproduces 3/3 with a frozen
 > failure signature. After the patch, it passes 3/3. A verifier — not a human —
 > decides, by exit code.
+
+Built for support/SDK engineers at API companies who live with "cannot
+reproduce" tickets — and for agent builders who need contamination-free,
+machine-scored reproduction cases (see
+[the case set](#the-case-set) as a blind eval harness).
 
 ![faultcase demo — ticket in, verified repro bundle out](demo.gif)
 
@@ -34,14 +43,31 @@ fix/
   verification.json       # machine evidence: 3/3 fail pre, 3/3 pass post
 ```
 
-## Quickstart
+## Verify it yourself — Docker only, no API key
+
+Don't take "VERIFIED" from prose. The case bundles live in this repo (not in
+the PyPI package), so clone first; Docker is the only other requirement
+(~3 minutes, most of it the image build):
 
 ```bash
-pip install faultcase
+git clone https://github.com/Createyouracccount/faultcase && cd faultcase
+pip install .
 
-# verify a bundle (exit 0 = verified, 1 = failed, 2 = infra error)
+# exit 0 = VERIFIED: pre-patch fails 3/3 with the frozen signature,
+# post-patch passes 3/3 (exit 1 = failed, 2 = infra error)
 faultcase-verify cases/gc2-urllib3-retry-method-whitelist --runner docker
+```
 
+The exact same checks re-run from scratch in
+[public CI](https://github.com/Createyouracccount/faultcase/actions/workflows/verify.yml)
+on every push and weekly — the badge above is the live verdict, and every run's
+logs are public. Prefer raw docker commands over the CLI?
+[samples/gc2-sample](samples/gc2-sample) walks the same bundle with nothing but
+`docker build` / `docker run`.
+
+## Other verifier modes
+
+```bash
 # same-bug scoring against a reference signature, plus change coverage
 faultcase-verify path/to/bundle --against golden_signature.json --coverage
 
@@ -50,8 +76,10 @@ faultcase-run cases/gc2-urllib3-retry-method-whitelist/input -o out/ \
   --adapter claude-cli --runner docker
 ```
 
-Or run a bundle with nothing but Docker — see
-[samples/gc2-sample](samples/gc2-sample) for a guided walkthrough.
+The full `faultcase-run` pipeline additionally needs the
+[Claude Code CLI](https://claude.com/claude-code); the venv runner
+(`--runner venv`) needs [uv](https://docs.astral.sh/uv/), which provisions the
+bundle's pinned interpreter for version-gated bugs.
 
 ## Principles
 
@@ -74,9 +102,9 @@ both runners (Docker and a uv-provisioned venv):
 
 | Case | Failure family | Grounded in |
 |------|----------------|-------------|
-| [GC-1](cases/gc1-webhook-hmac-reserialized-body) | Webhook HMAC broken by body re-serialization | stripe-python #424 |
-| [GC-2](cases/gc2-urllib3-retry-method-whitelist) | Version-gated retry semantics (explodes only on a real retry) | urllib3 #2092 |
-| [GC-3](cases/gc3-fromisoformat-zulu-suffix) | Runtime-version datetime parsing (the interpreter pin IS the bug) | cpython #80010 |
+| [GC-1](cases/gc1-webhook-hmac-reserialized-body) | Webhook HMAC broken by body re-serialization | [stripe-python #424](https://github.com/stripe/stripe-python/issues/424) |
+| [GC-2](cases/gc2-urllib3-retry-method-whitelist) | Version-gated retry semantics (explodes only on a real retry) | [urllib3 #2092](https://github.com/urllib3/urllib3/issues/2092) |
+| [GC-3](cases/gc3-fromisoformat-zulu-suffix) | Runtime-version datetime parsing (the interpreter pin IS the bug) | [cpython #80010](https://github.com/python/cpython/issues/80010) |
 | [GC-4](cases/gc4-idle-drop-read-hang) | Silent hang: no timeout + stalled connection | the classic dropped keep-alive |
 | [NR-1](cases/nr1-intermittent-hang-no-logs) | Insufficient evidence → refuse + missing-info list | — |
 
@@ -92,6 +120,13 @@ Send one anonymized ticket (symptoms + log + versions, secrets stripped) and
 get a runnable bundle back — open an issue or reach out. If it can't be
 reproduced from what you send, you get a precise missing-info list instead of
 guesses.
+
+## Scope
+
+Cases are Python today. The contract itself — frozen failure signature,
+scripted mock as the only network authority, 3x-fail/3x-pass verification,
+exit-code verdict — is language-agnostic: a Node or Go case needs a
+Dockerfile, a failing test, and a signature, not a new verifier.
 
 ## License
 
