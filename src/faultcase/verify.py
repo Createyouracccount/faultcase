@@ -380,13 +380,15 @@ def verify(bundle, runner_name="docker", runs=3, against_path=None,
         with open(against_path) as f:
             against = json.load(f)
     report = {
-        "bundle": bundle,
+        # basenames only: verification.json ships inside the bundle, so it
+        # must never leak the author's local directory layout
+        "bundle": os.path.basename(os.path.normpath(bundle)),
         "runner": runner_name,
         "runs_per_phase": runs,
         "static_problems": problems,
     }
     if against_path is not None:
-        report["against"] = os.path.abspath(against_path)
+        report["against"] = os.path.basename(os.path.normpath(against_path))
     if problems:
         report["result"] = "FAILED_STATIC"
         return 1, report
