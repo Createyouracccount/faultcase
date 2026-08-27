@@ -34,6 +34,26 @@ docker build -t faultcase-sample .
 docker run --rm --network none faultcase-sample   # exits 1: the exact ValueError
 ```
 
+Expected output (every run, identically — this is the frozen signature):
+
+```text
+Traceback (most recent call last):
+  File "/bundle/failing_test.py", line 51, in main
+    orders = client.fetch_orders(f"http://127.0.0.1:{port}")
+  File "/bundle/app/client.py", line 35, in fetch_orders
+    resp = session.get(f"{base_url}/orders", timeout=10)
+  ...
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 884, in urlopen
+    retries = retries.increment(method, url, response=response, _pool=self)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 338, in new
+    return type(self)(**params)
+  File "/bundle/app/client.py", line 18, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 265, in __init__
+    raise ValueError(
+ValueError: Using both 'allowed_methods' and 'method_whitelist' together is not allowed. Instead only use 'allowed_methods'
+```
+
 Apply the fix and watch the same scenario pass:
 
 ```bash

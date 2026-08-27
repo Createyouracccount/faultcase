@@ -228,6 +228,10 @@ class DockerRunner:
     def run_once(self, bundle_copy, observed_path):
         outdir = os.path.dirname(observed_path)
         os.makedirs(outdir, exist_ok=True)
+        # The bundle image runs as its own non-root user, whose uid need not
+        # match the host user owning this directory (Linux bind mounts map
+        # uids 1:1; Docker Desktop on macOS masks the mismatch).
+        os.chmod(outdir, 0o777)
         try:
             result = sh(
                 ["docker", "run", "--rm", "--network", "none",
