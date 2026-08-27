@@ -1,0 +1,16 @@
+2026-08-15 14:03:22 UTC webhooks[87] INFO POST /webhook from 54.187.174.169
+Traceback (most recent call last):
+  File "/app/.venv/lib/python3.11/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/app/.venv/lib/python3.11/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/webhooks/server.py", line 24, in webhook
+    event = stripe.Webhook.construct_event(payload, sig_header, WEBHOOK_SECRET)
+  File "/app/.venv/lib/python3.11/site-packages/stripe/_webhook.py", line 24, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/app/.venv/lib/python3.11/site-packages/stripe/_webhook.py", line 75, in verify_header
+    raise SignatureVerificationError(
+stripe._error.SignatureVerificationError: No signatures found matching the expected signature for payload
+2026-08-15 14:03:22 UTC webhooks[87] ERROR 500 returned, event lost
+2026-08-15 14:04:01 UTC webhooks[87] INFO POST /webhook from 54.187.174.169
+2026-08-15 14:04:01 UTC webhooks[87] ERROR SignatureVerificationError (same as above), event lost

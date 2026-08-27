@@ -1,0 +1,13 @@
+{
+  "routes": {
+    "GET /orders": {
+      "script": [
+        {"status": 502, "json": {"error": "bad gateway"}},
+        {"status": 502, "json": {"error": "bad gateway"}},
+        {"status": 200, "json": {"orders": [{"id": "ord_1001", "amount": 4200}, {"id": "ord_1002", "amount": 1350}]}}
+      ],
+      "repeat_last": true
+    }
+  },
+  "expected_orders": [{"id": "ord_1001", "amount": 4200}, {"id": "ord_1002", "amount": 1350}]
+}

@@ -1,0 +1,11 @@
+--- a/repro/app/client.py
++++ b/repro/app/client.py
+@@ -14,7 +14,7 @@
+     """Retry policy that also retries POSTs, per the ops runbook."""
+ 
+     def __init__(self, *args, **kwargs):
+-        kwargs.setdefault("method_whitelist", frozenset(["GET", "POST"]))
++        kwargs.setdefault("allowed_methods", frozenset(["GET", "POST"]))
+         super().__init__(*args, **kwargs)
+ 
+ 

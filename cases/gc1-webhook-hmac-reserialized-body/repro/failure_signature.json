@@ -1,0 +1,21 @@
+{
+  "comparator_version": 2,
+  "case_id": "gc1-webhook-hmac-reserialized-body",
+  "exception_type": "stripe._error.SignatureVerificationError",
+  "message_regex": "No signatures found matching the expected signature for payload",
+  "top_frames": [
+    ["*", "webhook"],
+    ["stripe._webhook", "construct_event"],
+    ["stripe._webhook", "verify_header"]
+  ],
+  "http_status": null,
+  "sdk_error_code": null,
+  "grounding": "https://github.com/stripe/stripe-python/issues/424",
+  "runtime": {
+    "packages": {"stripe": "7.14.0", "flask": "2.3.3", "werkzeug": "2.3.8"},
+    "verified_on": [
+      "python 3.12.9 (host venv, 2026-08-18)",
+      "python:3.11-slim@sha256:9c900dea (docker --network none, 2026-08-18, VERIFIED 3/3 pre + 3/3 post)"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+2026-08-21 02:00:11 UTC reportsync[3811] INFO starting nightly report export
+2026-08-21 02:00:11 UTC reportsync[3811] INFO GET https://api.vendor.example/v1/reports/daily
+(no further log lines — worker produced no output until it was killed at 02:41)
+2026-08-21 02:41:37 UTC reportsync[3811] WARNING SIGKILL received, exiting

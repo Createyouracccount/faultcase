@@ -1,0 +1,36 @@
+2026-08-17 02:00:14 UTC ordersync[3142] INFO starting nightly order sync
+2026-08-17 02:00:14 UTC ordersync[3142] INFO GET https://api.vendor.example/v1/orders
+Traceback (most recent call last):
+  File "/srv/ordersync/sync_job.py", line 41, in <module>
+    orders = fetch_orders(BASE_URL)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/ordersync/client.py", line 35, in fetch_orders
+    resp = session.get(f"{base_url}/orders", timeout=10)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 884, in urlopen
+    retries = retries.increment(method, url, response=response, _pool=self)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/urllib3/util/retry.py", line 581, in increment
+    new_retry = self.new(
+                ^^^^^^^^^
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/urllib3/util/retry.py", line 338, in new
+    return type(self)(**params)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/srv/ordersync/ordersync/client.py", line 18, in __init__
+    super().__init__(*args, **kwargs)
+  File "/srv/ordersync/.venv/lib/python3.11/site-packages/urllib3/util/retry.py", line 265, in __init__
+    raise ValueError(
+ValueError: Using both 'allowed_methods' and 'method_whitelist' together is not allowed. Instead only use 'allowed_methods'
+2026-08-17 02:00:14 UTC ordersync[3142] ERROR sync aborted, exit 1

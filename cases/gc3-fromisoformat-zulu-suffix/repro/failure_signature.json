@@ -1,0 +1,19 @@
+{
+  "comparator_version": 2,
+  "case_id": "gc3-fromisoformat-zulu-suffix",
+  "exception_type": "ValueError",
+  "message_regex": "Invalid isoformat string: '2026-01-15T09:30:00Z'",
+  "top_frames": [
+    ["*", "fetch_order"]
+  ],
+  "http_status": null,
+  "sdk_error_code": null,
+  "grounding": "https://github.com/python/cpython/issues/80010",
+  "runtime": {
+    "packages": {"requests": "2.31.0", "urllib3": "1.26.18"},
+    "note": "python 3.10 pin IS the bug: fromisoformat accepts 'Z' only from 3.11 (cpython PR #92177)",
+    "verified_on": [
+      "python:3.10-slim@sha256:a78e4529 (docker --network none, 2026-08-18, VERIFIED 3/3 pre + 3/3 post)"
+    ]
+  }
+}

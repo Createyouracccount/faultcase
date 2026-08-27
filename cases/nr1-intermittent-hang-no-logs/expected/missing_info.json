@@ -1,0 +1,18 @@
+{
+  "reproducible": false,
+  "required_missing_kinds": [
+    "error_traceback",
+    "sdk_versions",
+    "timing_config",
+    "reproduction_frequency",
+    "code_snippet"
+  ],
+  "rationale": {
+    "error_traceback": "'never comes back'이 소켓 hang인지, GIL 블록인지, 무한 재시도인지 구분할 증거가 없음 — hang 시점의 스택 덤프(py-spy/faulthandler) 필요",
+    "sdk_versions": "requests/urllib3/httpx 등 클라이언트와 버전을 모름 — 버전별 timeout 기본값이 다름",
+    "timing_config": "timeout 설정 여부·값을 모름 — timeout 미설정이 최우선 가설이지만 확인 불가",
+    "reproduction_frequency": "'몇 번쯤/주'로는 상관 조건(시간대·페이로드 크기·엔드포인트)을 좁힐 수 없음",
+    "code_snippet": "호출 경로(스레드/프로세스 모델, 커넥션 풀 공유 여부)를 모름"
+  },
+  "note": "이 케이스에서 에이전트가 번들을 생성하면 채점 실패다. 정답은 reproducible:false + 위 kind 전부를 포함한 missing 목록이다."
+}

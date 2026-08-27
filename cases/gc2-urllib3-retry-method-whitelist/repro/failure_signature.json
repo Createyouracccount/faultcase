@@ -1,0 +1,22 @@
+{
+  "comparator_version": 1,
+  "case_id": "gc2-urllib3-retry-method-whitelist",
+  "exception_type": "ValueError",
+  "message_regex": "Using both 'allowed_methods' and 'method_whitelist' together is not allowed",
+  "top_frames": [
+    ["urllib3.connectionpool", "urlopen"],
+    ["urllib3.util.retry", "increment"],
+    ["urllib3.util.retry", "new"],
+    ["urllib3.util.retry", "__init__"]
+  ],
+  "http_status": null,
+  "sdk_error_code": null,
+  "grounding": "https://github.com/urllib3/urllib3/issues/2092",
+  "runtime": {
+    "packages": {"requests": "2.31.0", "urllib3": "1.26.18"},
+    "verified_on": [
+      "python 3.12.9 (host venv, 2026-08-18)",
+      "python:3.11-slim@sha256:9c900dea (docker --network none, 2026-08-18, VERIFIED 3/3 pre + 3/3 post)"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+2026-08-16 11:42:03 UTC orderdetail[212] INFO GET https://api.vendor.example/v1/orders/ord_1001
+Traceback (most recent call last):
+  File "/app/orderdetail/views.py", line 27, in order_detail
+    order = fetch_order(BASE_URL, order_id)
+  File "/app/orderdetail/client.py", line 18, in fetch_order
+    order["created_at"] = datetime.fromisoformat(order["created_at"])
+ValueError: Invalid isoformat string: '2026-01-15T09:30:00Z'
+2026-08-16 11:42:03 UTC orderdetail[212] ERROR request failed, 500 returned to user

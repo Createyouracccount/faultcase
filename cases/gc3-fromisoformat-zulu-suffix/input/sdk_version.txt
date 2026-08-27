@@ -1,0 +1,9 @@
+# production container (crashes)
+python 3.10.14
+requests==2.31.0
+urllib3==1.26.18
+
+# developer laptop (works)
+python 3.11.9
+requests==2.31.0
+urllib3==1.26.18

@@ -1,0 +1,4 @@
+python 3.11.9
+stripe==7.14.0
+flask==2.3.3
+werkzeug==2.3.8

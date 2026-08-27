@@ -1,0 +1,22 @@
+[project]
+name = "faultcase"
+version = "0.0.1"
+description = "Turn API support tickets into runnable failure reproduction bundles with deterministic verification"
+readme = "PYPI.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[project.urls]
+Homepage = "https://github.com/Createyouracccount/faultcase"
+Source = "https://github.com/Createyouracccount/faultcase"
+
+[project.scripts]
+faultcase-verify = "faultcase.verify:main"
+faultcase-run = "faultcase.run:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

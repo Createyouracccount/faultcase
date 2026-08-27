@@ -1,0 +1,23 @@
+{
+  "comparator_version": 2,
+  "case_id": "gc4-idle-drop-read-hang",
+  "exception_type": "faultcase.Hang",
+  "message_regex": "call did not return within \\d+s",
+  "top_frames": [
+    ["*", "fetch_report"],
+    ["urllib3.connectionpool", "_make_request"],
+    ["http.client", "getresponse"],
+    ["http.client", "_read_status"],
+    ["socket", "readinto"]
+  ],
+  "http_status": null,
+  "sdk_error_code": null,
+  "grounding": "requests without a timeout blocks forever in socket.recv when the server stalls after accepting the request — requests docs mark timeouts as the caller's responsibility; the stalled-keep-alive symptom is the classic NR-1 hang family, made reproducible by a scripted mock stall fault",
+  "runtime": {
+    "packages": {"requests": "2.31.0", "urllib3": "1.26.18"},
+    "verified_on": [
+      "python 3.11 (uv venv, 2026-08-23, VERIFIED 3/3 pre + 3/3 post)",
+      "python:3.11-slim@sha256:9c900dea (docker --network none, 2026-08-23, VERIFIED 3/3 pre + 3/3 post)"
+    ]
+  }
+}

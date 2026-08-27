@@ -1,0 +1,12 @@
+{
+  "routes": {
+    "GET /reports/daily": {
+      "script": [
+        {"fault": "stall"},
+        {"status": 200, "json": {"report": {"date": "2026-08-21", "orders": 128, "revenue": 91240}}}
+      ],
+      "repeat_last": true
+    }
+  },
+  "expected_report": {"date": "2026-08-21", "orders": 128, "revenue": 91240}
+}

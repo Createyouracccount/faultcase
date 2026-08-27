@@ -1,0 +1,9 @@
+--- a/repro/app/client.py
++++ b/repro/app/client.py
+@@ -14,5 +14,5 @@
+     resp = requests.get(f"{base_url}/orders/{order_id}", timeout=10)
+     resp.raise_for_status()
+     order = resp.json()["order"]
+-    order["created_at"] = datetime.fromisoformat(order["created_at"])
++    order["created_at"] = datetime.fromisoformat(order["created_at"].replace("Z", "+00:00"))
+     return order

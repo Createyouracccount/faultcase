@@ -1,0 +1,40 @@
+{
+  "bundle": "cases/gc4-idle-drop-read-hang",
+  "runner": "docker",
+  "runs_per_phase": 3,
+  "static_problems": [],
+  "comparator_version": 2,
+  "patch_target": "customer_code",
+  "pre": [
+    {
+      "run": 1,
+      "exit": 1,
+      "signature_match": true
+    },
+    {
+      "run": 2,
+      "exit": 1,
+      "signature_match": true
+    },
+    {
+      "run": 3,
+      "exit": 1,
+      "signature_match": true
+    }
+  ],
+  "post": [
+    {
+      "run": 1,
+      "exit": 0
+    },
+    {
+      "run": 2,
+      "exit": 0
+    },
+    {
+      "run": 3,
+      "exit": 0
+    }
+  ],
+  "result": "VERIFIED"
+}

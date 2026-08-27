@@ -1,0 +1,6 @@
+{
+  "note": "No mock API server in this bundle: the failing test itself is the webhook sender (signs at runtime with the local test secret). The signed raw body lives in failing_test.py as RAW_BODY; its non-canonical spacing is the fixture.",
+  "webhook_secret_env": "WEBHOOK_SECRET",
+  "default_secret": "whsec_faultcase_local_test",
+  "event_type": "payment_intent.succeeded"
+}

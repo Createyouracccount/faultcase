@@ -1,0 +1,11 @@
+--- a/repro/app/webhook_app.py
++++ b/repro/app/webhook_app.py
+@@ -19,7 +19,7 @@
+ 
+ @app.post("/webhook")
+ def webhook():
+-    payload = json.dumps(request.get_json()).encode("utf-8")
++    payload = request.get_data()
+     sig_header = request.headers["Stripe-Signature"]
+     event = stripe.Webhook.construct_event(payload, sig_header, WEBHOOK_SECRET)
+     return {"received": True, "type": event["type"]}
